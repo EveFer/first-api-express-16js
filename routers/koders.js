@@ -20,13 +20,22 @@ async function getKoders () {
 router.get('/', async (request, response) => {
     console.log('query params: ', request.query)
     const count = request.query.count
+    const name = request.query.name
+    const gender = request.query.gender
+
     console.log('count: ',count)
     const json = await getKoders()
     
     let kodersData = json.koders
+
     if(count) {
         kodersData = kodersData.slice(0, parseInt(count))
     }
+
+    if(name) {
+       kodersData = kodersData.filter((koder) => koder.name.toLowerCase() === name.toLowerCase())
+    }
+
     response.json({
         koders: kodersData
     })
